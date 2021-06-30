@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class Transfers {
 
-    
+
 //Information needed for Transfers
     private int transferId;
     private int transferTypeId;
