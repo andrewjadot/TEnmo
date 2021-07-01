@@ -4,9 +4,12 @@ import com.techelevator.tenmo.model.Accounts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.math.BigDecimal;
 
+@Component
 public class JDBCAccountsDAO implements AccountsDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -18,8 +21,8 @@ public class JDBCAccountsDAO implements AccountsDAO {
     public JDBCAccountsDAO() {
     }
 
-    public JDBCAccountsDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JDBCAccountsDAO(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     //get the balance of an account where the user_id matches
