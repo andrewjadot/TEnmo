@@ -1,5 +1,7 @@
 package com.techelevator.tenmo.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public class Transfers {
@@ -7,14 +9,67 @@ public class Transfers {
 
 //Information needed for Transfers
     private int transferId;
+
+    @NotBlank
     private int transferTypeId;
+
+    @NotBlank
     private int transferStatusId;
+
+    @NotBlank
     private int accountFrom;
+
+    @NotBlank
     private int accountTo;
+
+    @Positive
     private BigDecimal amount;
 
+    @NotBlank
+    private String transferType;
 
-// Setters & Getters
+    @NotBlank
+    private String transferStatus;
+
+    @Positive
+    private int userFrom;
+
+    @Positive
+    private int userTo;
+
+    // Setters & Getters
+    public String getTransferType() {
+        return transferType;
+    }
+
+    public void setTransferType(String transferType) {
+        this.transferType = transferType;
+    }
+
+    public String getTransferStatus() {
+        return transferStatus;
+    }
+
+    public void setTransferStatus(String transferStatus) {
+        this.transferStatus = transferStatus;
+    }
+
+    public int getUserFrom() {
+        return userFrom;
+    }
+
+    public void setUserFrom(int userFrom) {
+        this.userFrom = userFrom;
+    }
+
+    public int getUserTo() {
+        return userTo;
+    }
+
+    public void setUserTo(int userTo) {
+        this.userTo = userTo;
+    }
+
     public int getTransferId() {
         return transferId;
     }

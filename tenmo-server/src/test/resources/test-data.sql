@@ -10,13 +10,13 @@ VALUES (1, 1, 1000), (2, 2, 1000);
 
 --insert into transfer_types
 INSERT INTO transfer_types(transfer_type_id, transfer_type_desc)
-VALUES (1, "request"), (2, "sent");
+VALUES (1, "Request"), (2, "Send");
 
 --insert into transfer_statuses
 INSERT INTO transfer_statuses(transfer_statuses_id, transfer_statuses_desc)
-VALUES (1, "pending"), (2,"accepted");
+VALUES (1, "Pending"), (2,"Approved"), (3, "Rejected");
 
---insert into transfers
+--insert finally into transfers
 INSERT INTO transfers (transfer_id, transfer_type_id, transfer_statuses_id, account_from, account_to, amount)
 VALUES (1, 1, 1, 1, 2, 10), (2, 2, 1, 2, 10);
 

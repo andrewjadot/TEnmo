@@ -18,7 +18,7 @@ public class JDBCAccountsDAOTest extends TEnmoDAOTests {
         testAccounts = new Accounts();
         testAccounts.setAccountId(1);
         testAccounts.setUserId(1);
-        testAccounts.setBalance(BigDecimal.valueOf(10));
+        testAccounts.setBalance(BigDecimal.valueOf(1000));
     }
     @Test
     public void getBalance_by_user_id_correct_balance(){
