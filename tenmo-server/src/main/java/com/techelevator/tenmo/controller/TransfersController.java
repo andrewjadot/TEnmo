@@ -32,17 +32,6 @@ public class TransfersController {
         return results;
     }
 
-    @RequestMapping(path = "request", method = RequestMethod.POST)
-    public String requestTransferRequest(@RequestBody Transfers transfer) {
-        String results = transfersDAO.requestTransfer(transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
-        return results;
-    }
-
-    @RequestMapping(value = "request/{id}", method = RequestMethod.GET)
-    public List<Transfers> getAllTransferRequests(@PathVariable int id) {
-        List<Transfers> output = transfersDAO.pendingRequest(id);
-        return output;
-    }
 
 
 }

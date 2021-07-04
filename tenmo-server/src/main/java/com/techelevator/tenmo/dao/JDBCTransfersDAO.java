@@ -66,36 +66,7 @@ public class JDBCTransfersDAO implements TransfersDAO{
         return "Successful Transfer of Funds!";
     }
 
-    @Override
-    public String requestTransfer(int userFrom, int userTo, BigDecimal amount) {
-        if (userFrom==userTo){
-            return "You cannot request money from yourself";
-        }
-        if (amount.compareTo(new BigDecimal(0)) ==1){
-            String sql = "INSERT INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount " +
-                    "VALUES (1,1,?,?,?);";
-            jdbcTemplate.update(sql, userFrom, userTo, amount);
-
-        }
-        return "Request successful!";
-    }
-
-    @Override
-    public List<Transfers> pendingRequest(int userId) {
-        List<Transfers> end = new ArrayList<>();
-        String sql = "SELECT *, c.username AS userFrom, d.username AS userTo FROM transfers " +
-                "JOIN accounts aa ON transfers.account_from = aa.account_id " +
-                "JOIN accounts bb ON transfers.account_to = bb.account_ids " +
-                "JOIN users a ON a.user_id = c.user_id " +
-                "JOIN users b ON b.user_id = d.user_id " +
-                "WHERE transfer_status_id = 1 AND (account_from = 1 OR account_to = ?);";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId, userId);
-        while(result.next()){
-            Transfers transfers = mapRowToTransfer(result);
-            end.add(transfers);
-        }
-        return end;
-    }
+  
 
 
     //helper method

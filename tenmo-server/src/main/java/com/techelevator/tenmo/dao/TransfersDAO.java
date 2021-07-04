@@ -10,7 +10,6 @@ public interface TransfersDAO {
     public List<Transfers> getTransfersByList(int userId);
     public Transfers getTransferById(int transactionId);
     public String sendTransfer(int userFrom, int userTo, BigDecimal amount);
-    public String requestTransfer (int userFrom, int userTo, BigDecimal amount);
-    public List<Transfers> pendingRequest(int userId);
+
 
 }
