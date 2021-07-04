@@ -1,8 +1,13 @@
 package com.techelevator.tenmo.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 public class TransferStatuses {
     //Properties of Transfer Statuses aka row names
     private int transferStatusId;
+
+    @NotEmpty
     private String transferStatusDesc;
 
     //Getters and Setters

@@ -2,8 +2,10 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.AuthenticationServiceException;
+import com.techelevator.tenmo.services.TransfersService;
 import com.techelevator.view.ConsoleService;
 
 public class App {
@@ -68,28 +70,29 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
-		
+		AccountService account = new AccountService(API_BASE_URL, currentUser);
+		try {
+			account.getBalance();
+		} catch (NullPointerException e) {
+			System.out.println("No balance found");
+		}
 	}
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
+
 	private void requestBucks() {
-		// TODO Auto-generated method stub
-		
+
 	}
 	
 	private void exitProgram() {
