@@ -26,7 +26,7 @@ public class TransfersController {
         return transfer;
     }
 
-    @RequestMapping(path = "transfer", method = RequestMethod.POST)
+    @RequestMapping(path = "transfers/", method = RequestMethod.POST)
     public String sendTransferRequest(@RequestBody Transfers transfer) {
         String results = transfersDAO.sendTransfer(transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
         return results;

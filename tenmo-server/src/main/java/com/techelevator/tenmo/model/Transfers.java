@@ -10,25 +10,25 @@ public class Transfers {
 //Information needed for Transfers
     private int transferId;
 
-    @NotBlank
+
     private int transferTypeId;
 
-    @NotBlank
+
     private int transferStatusId;
 
-    @NotBlank
+
     private int accountFrom;
 
-    @NotBlank
+
     private int accountTo;
 
     @Positive
     private BigDecimal amount;
 
-    @NotBlank
+
     private String transferType;
 
-    @NotBlank
+
     private String transferStatus;
 
     @Positive

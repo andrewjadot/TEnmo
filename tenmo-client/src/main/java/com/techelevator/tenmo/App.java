@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfers;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -71,15 +72,13 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	private void viewCurrentBalance() {
 		AccountService account = new AccountService(API_BASE_URL, currentUser);
-		try {
-			account.getBalance();
-		} catch (NullPointerException e) {
-			System.out.println("No balance found");
-		}
+		account.getBalance();
+
 	}
 
 	private void viewTransferHistory() {
-
+		TransfersService transfersService = new TransfersService(API_BASE_URL, currentUser);
+		transfersService.transfersList();
 	}
 
 	private void viewPendingRequests() {
@@ -87,7 +86,8 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void sendBucks() {
-
+		TransfersService transfersService = new TransfersService(API_BASE_URL, currentUser);
+		transfersService.sendBucks();
 	}
 
 
