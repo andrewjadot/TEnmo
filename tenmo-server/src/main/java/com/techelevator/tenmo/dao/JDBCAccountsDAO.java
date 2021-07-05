@@ -17,10 +17,6 @@ public class JDBCAccountsDAO implements AccountsDAO {
     //might want to add try catch blocks in the future to make sure information is correct when going through
 
 
-
-    public JDBCAccountsDAO() {
-    }
-
     public JDBCAccountsDAO(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
@@ -41,10 +37,10 @@ public class JDBCAccountsDAO implements AccountsDAO {
     //update the balance of an account through adding money
     @Override
     public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
-        Accounts accounts = findAccountById(id);
+        Accounts accounts = findUserId(id);
         BigDecimal newBalance = accounts.getBalance().add(amountToAdd);
-        String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?;";
-        jdbcTemplate.update(sql, newBalance, id);
+        String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?";
+        int rowCount = jdbcTemplate.update(sql, newBalance, id);
         return accounts.getBalance();
     }
 
@@ -52,9 +48,9 @@ public class JDBCAccountsDAO implements AccountsDAO {
     //update the balance of an account through subtracting money
     @Override
     public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id) {
-        Accounts accounts = findAccountById(id);
+        Accounts accounts = findUserId(id);
         BigDecimal newBalance = accounts.getBalance().subtract(amountToSubtract);
-        String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?;";
+        String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?";
         jdbcTemplate.update(sql, newBalance, id);
         return accounts.getBalance();
     }
@@ -65,9 +61,11 @@ public class JDBCAccountsDAO implements AccountsDAO {
     public Accounts findUserId(int userId) {
         Accounts accounts = null;
         SqlRowSet results = null;
-        String sql = "SELECT * FROM accounts WHERE user_id = ?;";
+        String sql = "SELECT * FROM accounts WHERE user_id = ?";
         results = jdbcTemplate.queryForRowSet(sql, userId);
-        accounts = mapRowToAccount(results);
+        if (results.next()){
+            accounts = mapRowToAccount(results);
+        }
         return accounts;
     }
 
@@ -75,11 +73,11 @@ public class JDBCAccountsDAO implements AccountsDAO {
     @Override
     public Accounts findAccountById(int id) {
         Accounts accounts = null;
-        SqlRowSet results = null;
-        String sql = "SELECT * FROM accounts WHERE account_id = ?;";
-        results = jdbcTemplate.queryForRowSet(sql, id);
+
+        String sql = "SELECT * FROM accounts WHERE user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         if (results.next()){
-            accounts = mapRowToAccount(results);
+             accounts = mapRowToAccount(results);
         }
         return accounts;
     }

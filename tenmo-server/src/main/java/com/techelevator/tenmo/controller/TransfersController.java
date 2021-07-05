@@ -14,7 +14,7 @@ public class TransfersController {
     @Autowired
     private TransfersDAO transfersDAO;
 
-    @RequestMapping(value = "account/transfers/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "accounts/transfers/{id}", method = RequestMethod.GET)
     public List<Transfers> getAllMyTransfers(@PathVariable int id) {
         List<Transfers> output = transfersDAO.getTransfersByList(id);
         return output;
@@ -27,7 +27,7 @@ public class TransfersController {
     }
 
     @RequestMapping(path = "transfers/", method = RequestMethod.POST)
-    public String sendTransferRequest(@RequestBody Transfers transfer) {
+    public String sendTransfer(@RequestBody Transfers transfer) {
         String results = transfersDAO.sendTransfer(transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
         return results;
     }

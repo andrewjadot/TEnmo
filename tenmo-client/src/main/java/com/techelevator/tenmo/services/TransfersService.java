@@ -29,13 +29,12 @@ public class TransfersService {
 
     public Transfers[] transfersList(){
         Transfers[] transfers = null;
-        transfers = restTemplate.exchange(BASE_URL + "account/transfers/{id}" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(), Transfers[].class).getBody();
+        transfers = restTemplate.exchange(BASE_URL + "accounts/transfers/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(), Transfers[].class).getBody();
         System.out.println("----------------------------------\n" +
                             "Transfers List\n" +
                             "ID        FROM/TO          AMOUNT\n" +
-                            "---------------------------------\n");
+                            "----------------------------------\n");
         String fromTo = "";
-
         String username = "";
         for (Transfers newTransfer : transfers){
             if (currentUser.getUser().getId() == newTransfer.getAccountFrom()){
@@ -47,7 +46,7 @@ public class TransfersService {
             }
             System.out.println(newTransfer.getTransferId() + "       " + fromTo + " " + username + "    " + newTransfer.getAmount());
         }
-        System.out.println("------------------------------\n");
+        System.out.println("---------------------------------\n");
         return transfers;
     }
 
@@ -61,25 +60,27 @@ public class TransfersService {
                     "USERS\n" +
                     "ID         NAME\n" +
                     "---------------------------\n");
+
             for (User newUser : users) {
-                if (newUser.getId() != currentUser.getUser().getId()) {
-                    System.out.println(newUser.getId() + "      " + newUser.getUsername());
+                        System.out.println(newUser.getId() + "      " + newUser.getUsername());
                 }
                 System.out.println("------------------------\n" +
                         "Enter ID of user you are sending money to (0 to cancel): ");
                 transfers.setAccountTo(Integer.parseInt(scanner.nextLine()));
                 transfers.setAccountFrom(currentUser.getUser().getId());
-                if (transfers.getAccountTo() != 0) {
+                if (transfers.getAccountTo() > 0) {
                     System.out.println("Enter amount: ");
                     try {
-                        transfers.setAmount(new BigDecimal(Double.parseDouble(scanner.nextLine())));
+                        String newInput = scanner.nextLine();
+                        BigDecimal big = new BigDecimal(newInput);
+                        transfers.setAmount(big);
                     } catch (NumberFormatException e){
                         System.out.println("Error for amount entered");
                     }
                     String result = restTemplate.exchange(BASE_URL + "transfers/", HttpMethod.POST, makeTransferEntity(transfers), String.class).getBody();
                     System.out.println(result);
                 }
-            }
+
             }catch(Exception e){
             System.out.println("Bad Input");
         }
