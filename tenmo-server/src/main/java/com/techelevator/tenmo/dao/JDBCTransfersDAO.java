@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,9 @@ import java.util.List;
 
 @Component
 public class JDBCTransfersDAO implements TransfersDAO{
+    @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private AccountsDAO accountsDAO;
 
     @Override
@@ -35,7 +38,7 @@ public class JDBCTransfersDAO implements TransfersDAO{
     @Override
     public Transfers getTransferById(int transactionId) {
         Transfers transfer = new Transfers();
-        String sql = "SELECT t.*, u.username AS userFrom, v.username AS userTo, ts.transfer_status_desc, tt.transfer_type_desc FROM transfers " +
+        String sql = "SELECT t.*, u.username AS userFrom, v.username AS userTo, transfer_status_desc, transfer_type_desc FROM transfers " +
                 "JOIN accounts a ON transfers.account_from = a.account_id " +
                 "JOIN accounts b ON transfers.account_to = b.account_id " +
                 "JOIN users u ON a.user_id = u.user_id " +
@@ -55,17 +58,16 @@ public class JDBCTransfersDAO implements TransfersDAO{
         if (userFrom == userTo) {
             return "Error: Can't send money to yourself";
         }
-        if (amount.compareTo(accountsDAO.getBalance(userFrom)) == -1 && amount.compareTo(new BigDecimal("0.00")) == 1) {
             String sql = "INSERT INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                     "VALUES (2,2,?,?,?);";
-            jdbcTemplate.update(sql, userFrom, userTo, amount);
-            accountsDAO.addToBalance(amount, userTo);
             accountsDAO.subtractFromBalance(amount, userFrom);
+            accountsDAO.addToBalance(amount, userTo);
+            jdbcTemplate.update(sql, userFrom, userTo, amount);
             return "Successful Transfer of Funds!";
-        } else {
-            return "You can't send funds since you are broke!";
+
+            //return "You can't send funds since you are broke!";
         }
-    }
+
   
 
 
